@@ -2,6 +2,8 @@ var express = require("express");
 var logger = require("morgan");
 var mongoose = require("mongoose");
 var bodyparser = require("body-parser");
+var path = require('path');
+
 // var request = require("request");
 
 // Our scraping tools
@@ -42,11 +44,14 @@ mongoose.connect(MONGODB_URI, {useNewUrlParser: true});
 
 // A GET route for scraping the echoJS website
 app.get("/scrape", function(req, res) {
+  console.log("scrape article");
+
     // First, we grab the body of the html with axios
     axios.get("https://sfbay.craigslist.org/").then(function(response) {
       // Then, we load that into cheerio and save it to $ for a shorthand selector
       var $ = cheerio.load(response.data);
-  
+      console.log("scrape article", response);
+
       // Now, we grab every h2 within an article tag, and do the following:
       $(".result-row").each(function(i, element) {
         // Save an empty result object
@@ -64,7 +69,7 @@ app.get("/scrape", function(req, res) {
         article.title = $(this)
           .find("result-title")
           .text();
-            console.log(article);
+            console.log("scrape article", article);
 
         // Create a new Article using the `result` object built from scraping
         db.Article.create(article)
@@ -103,13 +108,13 @@ app.post("/articles/:id", function(req, res) {
       });
   });
 
-app.get("/", function(req, res)
+app.get("/articles", function(req, res)
 {
     console.log("inside git all route");
 
     db.Article.find({})
     .then(function(dbArticle) {
-        console.log(dbArticle);
+        console.log("dbArticle", dbArticle);
       // If we were able to successfully find Articles, send them back to the client
       res.json(dbArticle);
     })
@@ -119,6 +124,15 @@ app.get("/", function(req, res)
     });
 }); 
   
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
+});
+
+// Survey page
+app.get('/note', function(req, res) {
+  res.sendFile(path.join(__dirname, '../public/note.html'));
+});
+
 app.listen(PORT, function(){
     console.log("listening on" + PORT)
 })
