@@ -8,10 +8,10 @@
     <style>
       body { background-color: #F2F6D0 }
       #wrapper {
-        width: 960px;
-        margin-left: auto;
-        margin-right: auto;
-        padding-top: 5%;
+       display: flex;
+       flex-direction: column;
+       align-items: center;
+       
       }
       #articles {
         display: inline-block;
@@ -45,6 +45,7 @@
       <button id="scrape"> Pull Articles</button>
 
       <div id="articles"></div>
+      
       <div id="notes"></div>
 
     </div>

@@ -2,10 +2,23 @@ console.log("getting it figured");
 
 // Grab the articles as a json
 
+$.get("/articles")
+.then(function(data){
+
+  console.log(data)
+
+for (var i=0; i<data.length; i++){
+  var headlineContainer = $("<div class='headline'>")
+  var link = $("<a class='itemLink' target='_blank' href= "+ data[i].link +">")
+  link.text(data[i].title) 
+  headlineContainer.append(link)
+  $("#articles").append(headlineContainer)
+};
+
+})
 
 
-
-$.get("/articles").then(function(data){console.log(data)}).catch(function(err){console.log(err)})
+.catch(function(err){console.log(err)})
 
 // $.get("/articles", function(data) {
 //     // For each one

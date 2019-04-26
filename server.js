@@ -44,13 +44,15 @@ mongoose.connect(MONGODB_URI, {useNewUrlParser: true});
 
 // A GET route for scraping the echoJS website
 app.get("/scrape", function(req, res) {
-  console.log("scrape article");
 
+  db.Article.remove({}, function(err) {
+    console.log("Articles collection removed");
+  });
+  
     // First, we grab the body of the html with axios
     axios.get("https://sfbay.craigslist.org/d/antiques/search/ata").then(function(response) {
       // Then, we load that into cheerio and save it to $ for a shorthand selector
       var $ = cheerio.load(response.data);
-      console.log("scrape article", response);
 
       // Now, we grab every h2 within an article tag, and do the following:
       $("li.result-row").each(function(i, element) {
@@ -66,13 +68,12 @@ app.get("/scrape", function(req, res) {
         article.link = $(this)
           .children("a")
           .attr("href");
-  
+        
         article.title = $(this)
           .children("p")
           .children("a")
           .text();
-          
-            console.log("scrape article", article);
+
 
         // Create a new Article using the `result` object built from scraping
         db.Article.create(article)
