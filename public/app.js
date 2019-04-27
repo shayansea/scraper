@@ -5,14 +5,15 @@ console.log("getting it figured");
 $.get("/articles")
 .then(function(data){
 
-  console.log(data)
 
-for (var i=0; i<data.length; i++){
-  var headlineContainer = $("<div class='headline'>")
-  var link = $("<a class='itemLink' target='_blank' href= "+ data[i].link +">")
-  link.text(data[i].title) 
-  headlineContainer.append(link)
-  $("#articles").append(headlineContainer)
+for (var i=0; i<100; i++){
+  // var headlineContainer = $("<div class='headline'>")
+  // var link = $("<a class='itemLink' target='_blank' href= "+ data[i].link +">")
+  // link.text(data[i].title) 
+  // headlineContainer.append(link)
+  // $("#articles").append(headlineContainer)
+  $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "</p>");
+
 };
 
 })
@@ -61,9 +62,18 @@ for (var i=0; i<data.length; i++){
           // Place the body of the note in the body textarea
           $("#bodyinput").val(data.note.body);
         }
-      });
+      }).catch(function(err){
+        console.log(err)
+      })
   });
-  
+
+  $("#scrape").on("click", function() {
+    $.get("/scrape")
+    .then(function(data) {
+        location.reload()
+    })
+  });
+
   // When you click the savenote button
   $(document).on("click", "#savenote", function() {
     // Grab the id associated with the article from the submit button
