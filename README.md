@@ -1,9 +1,9 @@
 ## Craigslist Antique Scraper App
 
-<img src="img/image1.png" width= "250px">
-<img src="img/image2.png" width= "250px">
-<img src="img/image3.png" width= "250px">
-<img src="img/image4.png" width= "250px">
+<img src="public/img/image1.png" width= "250px">
+<img src="public/img/image2.png" width= "250px">
+<img src="public/img/image3.png" width= "250px">
+<img src="public/img/image4.png" width= "250px">
 
 
 * We will need NPM packages. Clone down the repo to a local directory, and from your bash please navigate over to the "scrapehw" folder in your terminal, and type in your command line: "npm install"
